@@ -6,4 +6,5 @@ def index(request):
 
 
 def book_search(request):
-    pass
+    search_text = request.GET.get("search", "")
+    return render(request, "books/search_results.html", {"search_text": search_text})
