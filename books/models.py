@@ -15,8 +15,8 @@ class Book(models.Model):
 
 
 class Author(models.Model):
-    first_names = models.CharField(verbose_name="The contributor first name or names")
-    last_name = models.CharField(verbose_name="The contributor last name")
+    first_names = models.CharField(max_length=50, verbose_name="The contributor first name or names")
+    last_name = models.CharField(max_length=50, verbose_name="The contributor last name")
 
     def __str__(self) -> str:
         return self.first_names + " " + self.last_name
