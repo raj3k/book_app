@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from .models import Book, Author
 
 
 def index(request):
-    return render(request, "books/base.html")
+    books = Book.objects.all()
+    return render(request, "books/base.html", {"books": books})
 
 
 def book_search(request):
