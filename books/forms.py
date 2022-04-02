@@ -1,4 +1,5 @@
 from django import forms
+from .models import Book
 
 
 class SearchForm(forms.Form):
@@ -8,3 +9,9 @@ class SearchForm(forms.Form):
         ("author", "Author"),
         ("pub_language", "Language")
     ))
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"
