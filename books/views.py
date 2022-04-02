@@ -38,3 +38,31 @@ def get_books(request):
         url = f"https://www.googleapis.com/books/v1/volumes?q={search_value}"
         response = requests.get(url)
         data = response.json()
+        books = data["items"]
+
+        for book in books:
+            thumbnail = ""
+            pagecount = None
+            if "imageLinks" in book["volumeInfo"].keys():
+                thumbnail = book["volumeInfo"]["imageLinks"]["thumbnail"]
+
+            if "pageCount" in book["volumeInfo"].keys():
+                pagecount = book["volumeInfo"]["pageCount"]
+
+            book_data = Book(
+                title = book["volumeInfo"]["title"],
+                publication_date = book["volumeInfo"]["publishedDate"],
+                isbn = book["volumeInfo"]["industryIdentifiers"][0]["identifier"],
+                pages_count = pagecount,
+                cover_url = thumbnail,
+                pub_language = book["volumeInfo"]["language"]
+            )
+
+            book_data.save()
+
+            for author in book["volumeInfo"]["authors"]:
+                book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
+                # TODO: sprawdzanie czy dane imie nazwisko juz istnieje zeby nie duplikowac rekordow w bazie
+
+    all_books = Book.objects.all()
+    return render(request, "books/base.html", {"books": all_books})    
