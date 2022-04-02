@@ -31,10 +31,10 @@ def book_search(request):
     return render(request, "books/search_results.html", {"search_text": search_text, "search_results": search_results, "form": form})
 
 
-    def get_books(request):
-        all_books = {}
-        if 'search' in request.GET:
-            search_value = request.GET["search"]
-            url = f"https://www.googleapis.com/books/v1/volumes?q={search_value}"
-            response = requests.get(url)
-            data = response.json()
+def get_books(request):
+    all_books = {}
+    if 'search' in request.GET:
+        search_value = request.GET["search"]
+        url = f"https://www.googleapis.com/books/v1/volumes?q={search_value}"
+        response = requests.get(url)
+        data = response.json()
