@@ -11,7 +11,11 @@
     <p>List of all books</p>
     <ul>
         {% for book in books %}
-        <li>{{ book }}</li>
+        <li>
+            {{ book }}
+            <a href="{% url 'book_view' pk=book.id %}">Edit</a>
+        </li>
+        
         {% endfor %}
     </ul>
     <a href="/book-search">Search</a>
