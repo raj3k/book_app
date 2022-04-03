@@ -19,7 +19,7 @@ from books import views, api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('', views.index, name="index"),
     path('book-search/', views.book_search),
     path('book/<int:pk>', views.book_view, name="book_view"),
     path('get-books/', views.get_books),

@@ -10,7 +10,6 @@ class SearchForm(forms.Form):
         ("pub_language", "Language")
     ))
 
-
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book

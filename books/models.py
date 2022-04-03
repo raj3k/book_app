@@ -6,7 +6,7 @@ class Book(models.Model):
     publication_date = models.CharField(max_length=20, verbose_name="Publication date of the book")
     isbn = models.CharField(max_length=20, verbose_name="ISBN number of the book")
     pages_count = models.IntegerField(verbose_name="Number of pages in the book", null=True, blank=True)
-    cover_url = models.URLField(verbose_name="URL to book cover")
+    cover_url = models.URLField(verbose_name="URL to book cover", blank=True)
     pub_language = models.CharField(max_length=2, verbose_name="Language of the book publication")
     authors = models.ManyToManyField('Author', through="BookAuthor")
 

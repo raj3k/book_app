@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from books.forms import SearchForm, BookForm
-from .models import Book, Author
+from .models import Book
 from django.db.models import Q
 import requests
 
@@ -12,7 +12,10 @@ def index(request):
 
 def book_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    form = BookForm(instance=book)
+    form = BookForm(request.POST or None, instance=book)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect("/")
     return render(request, "books/book.html", {"book": book, "form": form})
 
 
