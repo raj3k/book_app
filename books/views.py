@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from books.forms import SearchForm, BookForm
 from .models import Book, Author
 from django.db.models import Q
+import requests
 
 
 def index(request):
@@ -32,7 +33,6 @@ def book_search(request):
 
 
 def get_books(request):
-    all_books = {}
     if 'search' in request.GET:
         search_value = request.GET["search"]
         url = f"https://www.googleapis.com/books/v1/volumes?q={search_value}"
@@ -65,4 +65,4 @@ def get_books(request):
                 # TODO: sprawdzanie czy dane imie nazwisko juz istnieje zeby nie duplikowac rekordow w bazie
 
     all_books = Book.objects.all()
-    return render(request, "books/base.html", {"books": all_books})    
+    return render(request, "books/base.html", {"books": all_books})
