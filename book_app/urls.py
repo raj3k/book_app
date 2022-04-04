@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
     path('book-search/', views.book_search),
-    path('add-book/', views.book_add),
+    path('book-add/', views.book_add),
     path('book/<int:pk>', views.book_view, name="book_view"),
     path('get-books/', views.get_books),
     path('api/books_api_view/', api_views.books_api_view, name="books_api_view"),
