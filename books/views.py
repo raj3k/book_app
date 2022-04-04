@@ -10,6 +10,10 @@ def index(request):
     return render(request, "books/base.html", {"books": books})
 
 
+def book_add(request):
+    pass
+
+
 def book_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
     form = BookForm(request.POST or None, instance=book)
