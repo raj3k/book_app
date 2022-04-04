@@ -11,7 +11,11 @@ def index(request):
 
 
 def book_add(request):
-    pass
+    form = BookForm(request.POST or None)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect("/")
+    return render(request, 'books/book_add.html', {"form": form})
 
 
 def book_view(request, pk):
