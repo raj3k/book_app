@@ -10,3 +10,8 @@ class TestIndexView(TestCase):
         request = self.factory.get('/index')
         response = index(request)
         self.assertEquals(response.status_code, 200)
+
+    def test_book_view(self):
+        request = self.factory.get('/book_view')
+        response = index(request)
+        self.assertEquals(response.status_code, 200)
