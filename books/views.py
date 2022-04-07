@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from books.forms import SearchForm, BookForm
+from books.forms import SearchForm, BookForm, AuthorForm
 from .models import Book
 from django.db.models import Q
 import requests
@@ -11,11 +11,18 @@ def index(request):
 
 
 def book_add(request):
-    form = BookForm(request.POST or None)
-    if request.POST and form.is_valid():
-        form.save()
+    form_book = BookForm(request.POST or None)
+    form_author = AuthorForm(request.POST or None)
+    if request.POST and form_book.is_valid():
+        form_book.save()
         return redirect("/")
-    return render(request, 'books/book_add.html', {"form": form})
+    return render(request, 'books/book_add.html', {"form_book": form_book, "form_author": form_author})
+
+def author_add(request):
+    form_author = AuthorForm(request.POST or None)
+    if request.POST and form_author.is_valid():
+        form_author.save()
+        return redirect("/book-add")
 
 
 def book_view(request, pk):
