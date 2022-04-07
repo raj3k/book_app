@@ -22,6 +22,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('book-search/', views.book_search),
     path('book-add/', views.book_add),
+    path('add-author/', views.author_add, name="author_add"),
     path('book/<int:pk>', views.book_view, name="book_view"),
     path('get-books/', views.get_books),
     path('api/books_api_view/', api_views.books_api_view, name="books_api_view"),
