@@ -3,7 +3,14 @@
 <h2>Book Add</h2>
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form_book.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<br>
+<h3>If author is not present in a list of authors, please add via below form</h3>
+<form action="{% url 'author_add' %}" method="POST">
+    {% csrf_token %}
+    {{ form_author.as_p }}
     <input type="submit" value="Submit">
 </form>
 {% endblock %}
