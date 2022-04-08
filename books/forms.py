@@ -20,7 +20,9 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         exclude = '__all__'
-    pub_language = forms.CharField(max_length=2, validators=[validate_lower])
+    
+    def clean_pub_language(self):
+        return self.cleaned_data['pub_language'].lower()
 
 
 class AuthorForm(forms.ModelForm):
