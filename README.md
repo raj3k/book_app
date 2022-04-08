@@ -14,5 +14,3 @@ Tech Stack:
 - Bootstrap CSS
 - SQLite database
 
-Frontend:
-<img width="1425" alt="Zrzut ekranu 2022-04-8 o 09 01 09" src="https://user-images.githubusercontent.com/25081294/162381903-15527bcc-0b9c-4fde-b688-c4562db96310.png">
