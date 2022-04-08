@@ -3,9 +3,6 @@ from .models import Author, Book
 from django.core.exceptions import ValidationError
 
 
-def validate_lower(value):
-        if value.lower() != value:
-            raise ValidationError(f"{value} is not lowercase!")
 
 
 class SearchForm(forms.Form):
