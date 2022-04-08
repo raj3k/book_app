@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from books.forms import SearchForm, BookForm, AuthorForm
-from .models import Book
+from .models import Author, Book
 from django.db.models import Q
 import requests
 
@@ -76,11 +76,16 @@ def get_books(request):
                 pub_language = book["volumeInfo"]["language"]
             )
 
-            book_data.save()
+            book_data.save(False)
 
             for author in book["volumeInfo"]["authors"]:
-                book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
-                # TODO: sprawdzanie czy dane imie nazwisko juz istnieje zeby nie duplikowac rekordow w bazie
+                author_from_db = Author.objects.filter(Q(first_names=author.split()[:-1]) and Q(last_name=author.split()[-1]))
+                if author_from_db:
+                    book_data.authors.add(author_from_db[0].id)
+                else:
+                    book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
+
+            book_data.save()
 
     all_books = Book.objects.all()
     return render(request, "books/base.html", {"books": all_books})
