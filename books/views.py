@@ -78,12 +78,13 @@ def get_books(request):
 
             book_data.save(False)
 
-            for author in book["volumeInfo"]["authors"]:
-                author_from_db = Author.objects.filter(Q(first_names=author.split()[:-1]) and Q(last_name=author.split()[-1]))
-                if author_from_db:
-                    book_data.authors.add(author_from_db[0].id)
-                else:
-                    book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
+            if "authors" in book["volumeInfo"].keys():
+                for author in book["volumeInfo"]["authors"]:
+                    author_from_db = Author.objects.filter(Q(first_names=author.split()[:-1]) and Q(last_name=author.split()[-1]))
+                    if author_from_db:
+                        book_data.authors.add(author_from_db[0].id)
+                    else:
+                        book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
 
             book_data.save()
 
