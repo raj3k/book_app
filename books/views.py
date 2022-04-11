@@ -3,6 +3,7 @@ from books.forms import SearchForm, BookForm, AuthorForm
 from .models import Author, Book
 from django.db.models import Q
 import requests
+from .utils import get_books_from_google_api
 
 
 def index(request):
@@ -52,41 +53,7 @@ def book_search(request):
 
 def get_books(request):
     if 'search' in request.GET:
-        search_value = request.GET["search"]
-        url = f"https://www.googleapis.com/books/v1/volumes?q={search_value}"
-        response = requests.get(url)
-        data = response.json()
-        books = data["items"]
-
-        for book in books:
-            thumbnail = ""
-            pagecount = None
-            if "imageLinks" in book["volumeInfo"].keys():
-                thumbnail = book["volumeInfo"]["imageLinks"]["thumbnail"]
-
-            if "pageCount" in book["volumeInfo"].keys():
-                pagecount = book["volumeInfo"]["pageCount"]
-
-            book_data = Book(
-                title = book["volumeInfo"]["title"],
-                publication_date = book["volumeInfo"]["publishedDate"],
-                isbn = book["volumeInfo"]["industryIdentifiers"][0]["identifier"],
-                pages_count = pagecount,
-                cover_url = thumbnail,
-                pub_language = book["volumeInfo"]["language"]
-            )
-
-            book_data.save(False)
-
-            if "authors" in book["volumeInfo"].keys():
-                for author in book["volumeInfo"]["authors"]:
-                    author_from_db = Author.objects.filter(Q(first_names=author.split()[:-1]) and Q(last_name=author.split()[-1]))
-                    if author_from_db:
-                        book_data.authors.add(author_from_db[0].id)
-                    else:
-                        book_data.authors.create(first_names=" ".join(author.split()[:-1]), last_name=author.split()[-1])
-
-            book_data.save()
-
+        search_value = request.GET.get("search", "")
+        get_books_from_google_api(query_arg=search_value)
     all_books = Book.objects.all()
     return render(request, "books/base.html", {"books": all_books})
