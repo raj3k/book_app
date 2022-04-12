@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Book(models.Model):
@@ -10,6 +11,9 @@ class Book(models.Model):
     pub_language = models.CharField(max_length=2, verbose_name="Language of the book publication")
     authors = models.ManyToManyField('Author', through="BookAuthor")
 
+    def get_absolute_url(self):
+        return reverse("book_view", kwargs={"pk": self.pk})
+    
     def __str__(self) -> str:
         return self.title
 
