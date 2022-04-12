@@ -13,7 +13,7 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ book.title }}</h5>
-                    <a href="{% url 'book_view' pk=book.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{{ book.get_absolute_url }}" class="btn btn-primary">Edit</a>
                 </div>
             </div>
             <br>
